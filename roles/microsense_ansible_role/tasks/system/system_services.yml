@@ -1,0 +1,12 @@
+- name: "System | Configure NTP Servers"
+  ansible.netcommon.cli_command:
+    command: "ntp server {{ item.server }}"
+  loop: "{{ ntp_servers }}"
+
+- name: "System | Configure DNS Servers"
+  ansible.netcommon.cli_command:
+    command: |
+      configure terminal
+      ip name-server {{ item.server }}
+      exit
+  loop: "{{ dns_servers }}"

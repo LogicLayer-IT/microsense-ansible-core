@@ -1,0 +1,28 @@
+# --------------------- SNMPv3 ---------------------
+snmp_version: "v3"
+snmp_user: "YOUR USER"
+snmp_trap_address: "X.X.X.X"
+snmp_trap_port: "162"
+snmp_auth_protocol: "md5"
+snmp_priv_protocol: "des"
+snmp_auth_pass: "{{ YOUR_AUTH_PASS }}"
+snmp_priv_pass: "{{ YOUR_PRIV_PASS }}"
+
+
+# --------------------- NTP ---------------------
+ntp_servers:
+  - { server: "YOUR.NTP.SERVER.IP", mode: "iburst" }
+
+# --------------------- DNS ---------------------
+dns_servers:
+  - { server: "YOUR.DNS.SERVER.IP", name: "DNS-Primary" }
+  - { server: "YOUR.DNS.SERVER.IP", name: "DNS-Secondary" }
+
+# ------------------------ Route -------------------------
+routing:
+  - { destination: "0.0.0.0", mask: "0.0.0.0", gateway: "YOUR.GW.SERVER.IP" }
+
+# --------------------- Management ---------------------
+mgmt_vlan: 1
+mgmt_ip: "YOUR.NTP.SERVER.IP"
+mgmt_mask: "255.255.255.0"

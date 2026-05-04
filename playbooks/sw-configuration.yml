@@ -1,0 +1,20 @@
+---
+- name: Microsense Deployment
+  hosts: SW01
+  gather_facts: false
+  
+  vars:
+    ansible_connection: ansible.netcommon.network_cli
+    ansible_network_os: cisco.ios.ios
+    ansible_user: "{{ vault_switch_username }}"
+    ansible_password: "{{ vault_switch_pw_default }}"
+    
+    ansible_become: false
+    ansible_become_method: none
+    
+    ansible_command_timeout: 60
+    ansible_connect_timeout: 60
+    ansible_terminal_initial_answer: "\n"
+
+  roles:
+    - microsense_ansible_role

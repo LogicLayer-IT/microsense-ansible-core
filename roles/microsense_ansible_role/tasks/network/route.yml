@@ -1,0 +1,9 @@
+---
+- name: "Network | Configure Routes"
+  ansible.netcommon.cli_command:
+    command: |
+      configure terminal
+      ip route {{ item.destination }} {{ item.mask }} {{ item.gateway }}
+      exit
+  loop: "{{ routing }}"
+  no_log: true

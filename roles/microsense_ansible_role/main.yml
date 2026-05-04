@@ -1,0 +1,3 @@
+- name: Deploy Microsense Configuration via Template
+  ansible.netcommon.cli_config:
+    config: "{{ lookup('template', 'microsense_config.j2') }}"

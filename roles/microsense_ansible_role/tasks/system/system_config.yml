@@ -1,0 +1,21 @@
+---
+- name: "System | Set Hostname"
+  ansible.netcommon.cli_command:
+    command: "enable\n{{ vault_switch_pw_default }}\nconfigure terminal\nhostname {{ hostname }}\nexit"
+  no_log: true
+
+- name: "System | Management IP on VLAN {{ mgmt_vlan }}"
+  ansible.netcommon.cli_command:
+    command: |
+      enable
+      {{ vault_switch_pw_default }}
+      configure terminal
+      interface vlan {{ mgmt_vlan }}
+      description Management_Interface
+      ip address {{ mgmt_ip }} {{ mgmt_mask }}
+      no shutdown
+      exit
+  no_log: true
+
+- name: "System | Configure DNS & NTP"
+  include_tasks: system_services.yml

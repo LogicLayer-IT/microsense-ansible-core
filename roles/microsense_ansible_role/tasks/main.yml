@@ -1,0 +1,28 @@
+---
+- name: "Microsense | System Config"
+  include_tasks: system/system_config.yml
+
+- name: "Microsense | SNMP Configuration"
+  include_tasks: system/snmp_config.yml
+
+- name: "Microsense | Routing Configuration"
+  include_tasks: network/route.yml
+
+- name: "Microsense | VLAN Deployment"
+  include_tasks: network/single_vlan.yml
+  loop: "{{ vlans }}"
+  loop_control: { loop_var: vlan_item, label: "VLAN {{ vlan_item.id }}" }
+
+- name: "Microsense | LAG Deployment"
+  include_tasks: network/single_lag.yml
+  loop: "{{ interfaces.lags | default([]) }}"
+  loop_control: { loop_var: lag_item, label: "LAG {{ lag_item.id }}" }
+
+- name: "Microsense | Port Deployment"
+  include_tasks: network/single_interface.yml
+  loop: "{{ interfaces.ports | default([]) }}"
+  loop_control: { loop_var: int_item, label: "Port {{ int_item.port }}" }
+
+- name: "Microsense | Final Save"
+  ansible.netcommon.cli_command:
+    command: "write memory"

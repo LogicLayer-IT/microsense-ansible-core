@@ -1,0 +1,27 @@
+---
+- name: "Configuring Port {{ int_item.port }}"
+  ansible.netcommon.cli_command:
+    command: |
+      enable
+      {{ vault_switch_pw_default }}
+      configure terminal
+      interface {{ int_item.port }}
+      description {{ int_item.description }}
+      {% if int_item.lagid is defined and int_item.lagid != "" %}
+      # --- LAG MODE ---
+      port-group {{ int_item.lagid }} mode active
+      {% else %}
+      # --- ACCESS / DEFAULT MODE ---
+      no port-group
+      switchport mode access
+      {% if int_item.vlan is defined and int_item.vlan != "" %}
+      switchport access vlan {{ int_item.vlan }}
+      {% else %}
+      switchport access vlan 1
+      {% endif %}
+      {% endif %}
+      exit
+  no_log: true
+
+- name: "Resetting connection"
+  meta: reset_connection

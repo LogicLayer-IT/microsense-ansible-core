@@ -1,0 +1,8 @@
+---
+- name: "Configuring VLAN {{ vlan_item.id }} ({{ vlan_item.name }})"
+  ansible.netcommon.cli_command:
+    command: "enable\n{{ vault_switch_pw_default }}\nconfigure terminal\nvlan {{ vlan_item.id }}\nname {{ vlan_item.name }}\nexit"
+  no_log: true
+
+- name: "Resetting connection for next hop"
+  meta: reset_connection

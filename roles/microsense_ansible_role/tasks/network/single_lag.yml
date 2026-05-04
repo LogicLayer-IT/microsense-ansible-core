@@ -1,0 +1,16 @@
+---
+- name: "Microsense | Create AggregatePort {{ lag_item.id }}"
+  ansible.netcommon.cli_command:
+    command: |
+      enable
+      {{ vault_switch_pw_default }}
+      configure terminal
+      interface AggregatePort {{ lag_item.id }}
+      description {{ lag_item.description }}
+      switchport mode access
+      switchport access vlan {{ lag_item.vlan }}
+      exit
+  no_log: true
+
+- name: "Reset connection"
+  meta: reset_connection
